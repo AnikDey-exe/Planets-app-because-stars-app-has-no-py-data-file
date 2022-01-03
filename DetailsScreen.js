@@ -1,16 +1,19 @@
+
+
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import { Card, Icon } from "react-native-elements";
 import axios from "axios";
-export default class DetailsScreen extends React.Component {
+export default class DetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       details: {},
       imagePath: "",
-      url: `https://1714-2600-1700-3070-bc90-d45f-bac7-b48c-6a34.ngrok.io/planet?name=${this.props.navigation.getParam("name")}`
+      url: `https://79ce-2600-1700-3070-bc90-d401-3715-f5db-328.ngrok.io?planet=${this.props.navigation.getParam("planet_name")}`,
+      listData: [],
+      number: this.props.navigation.getParam("number")
     };
-    console.log(this.props.navigation.getParam("name"))
   }
 
   componentDidMount() {
@@ -21,7 +24,11 @@ export default class DetailsScreen extends React.Component {
     axios
       .get(url)
       .then(response => {
-        this.setDetails(response.data[0].data);
+        console.log(response.data[0].data)
+        this.setDetails(response.data[0].data[this.state.number]);
+        return this.setState({
+          listData: response.data[0].data
+        });
       })
       .catch(error => {
         Alert.alert(error.message);
@@ -56,18 +63,15 @@ export default class DetailsScreen extends React.Component {
 
   render() {
     const { details, imagePath } = this.state;
-    if (details.specifications) {
       return (
         <View style={styles.container}>
-          <Card
-            title={details.name}
-            image={imagePath}
-            imageProps={{ resizeMode: "contain", width: "100%" }}
-          >
             <View>
               <Text
                 style={styles.cardItem}
-              >{`Distance from Earth : ${details.distance_from_earth}`}</Text>
+              >Distance from Earth : {this.state.listData.distance_from_earth}</Text>
+               <Text
+                style={styles.cardItem}
+              >{`Name: ${details.name}`}</Text>
               <Text
                 style={styles.cardItem}
               >{`Distance from Sun : ${details.distance_from_their_sun}`}</Text>
@@ -90,20 +94,10 @@ export default class DetailsScreen extends React.Component {
                 style={styles.cardItem}
               >{`Planet Type : ${details.planet_type}`}</Text>
             </View>
-            <View style={[styles.cardItem, { flexDirection: "column" }]}>
-              <Text>{details.specifications ? `Specifications : ` : ""}</Text>
-              {details.specifications.map((item, index) => (
-                <Text key={index.toString()} style={{ marginLeft: 50 }}>
-                  {item}
-                </Text>
-              ))}
-            </View>
-          </Card>
+          
         </View>
       );
     }
-    return null;
-  }
 }
 
 const styles = StyleSheet.create({
