@@ -1,7 +1,7 @@
 
 
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, Button, Alert, Image } from "react-native";
 import { Card, Icon } from "react-native-elements";
 import axios from "axios";
 export default class DetailsScreen extends Component {
@@ -10,7 +10,7 @@ export default class DetailsScreen extends Component {
     this.state = {
       details: {},
       imagePath: "",
-      url: `https://79ce-2600-1700-3070-bc90-d401-3715-f5db-328.ngrok.io?planet=${this.props.navigation.getParam("planet_name")}`,
+      url: ` https://91fe-2600-1700-3070-bc90-d543-acc5-8d9e-8a50.ngrok.io?planet=${this.props.navigation.getParam("planet_name")}`,
       listData: [],
       number: this.props.navigation.getParam("number")
     };
@@ -26,9 +26,6 @@ export default class DetailsScreen extends Component {
       .then(response => {
         console.log(response.data[0].data)
         this.setDetails(response.data[0].data[this.state.number]);
-        return this.setState({
-          listData: response.data[0].data
-        });
       })
       .catch(error => {
         Alert.alert(error.message);
@@ -54,7 +51,7 @@ export default class DetailsScreen extends Component {
       default:
         imagePath = require("../assets/planet_type/gas_giant.png");
     }
-
+    console.log(imagePath)
     this.setState({
       details: planetDetails,
       imagePath: imagePath
@@ -65,13 +62,16 @@ export default class DetailsScreen extends Component {
     const { details, imagePath } = this.state;
       return (
         <View style={styles.container}>
-            <View>
-              <Text
-                style={styles.cardItem}
-              >Distance from Earth : {this.state.listData.distance_from_earth}</Text>
+            <View style={{justifyContent: 'center'}}>
+              <Image
+              source={imagePath}
+              style={{alignSelf: 'center', marginTop: 20, height: 10, resizeMode: "contain"}}/>
                <Text
                 style={styles.cardItem}
               >{`Name: ${details.name}`}</Text>
+              <Text
+                style={styles.cardItem}
+              >{`Distance from Earth : ${details.distance_from_earth}`}</Text>
               <Text
                 style={styles.cardItem}
               >{`Distance from Sun : ${details.distance_from_their_sun}`}</Text>
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   cardItem: {
-    marginBottom: 10
+    marginBottom: 10,
+    alignSelf: 'center',
+    marginTop: 20
   }
 });

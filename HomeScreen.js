@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       listData: [],
-      url: "https://79ce-2600-1700-3070-bc90-d401-3715-f5db-328.ngrok.io"
+      url: " https://91fe-2600-1700-3070-bc90-d543-acc5-8d9e-8a50.ngrok.io"
     };
   }
 
@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
     <ListItem
       key={index}
       title={`Planet : ${item.name}`}
-      subtitle={`Distance from earth : ${item.distance_from_earth}\nDistance from Sun : ${item.distance_from_their_sun}\nGravity : ${item.gravity}\nOrbital Period : ${item.orbital_period}\nOrbital Speed : ${item.orbital_speed}\nPlanet Mass : ${item.planet_mass}\nPlanet Radius : ${item.planet_radius}\nPlanet Type : ${item.planet_type}`}
+      subtitle={`Distance from earth : ${item.distance_from_earth}`}
       titleStyle={styles.title}
       containerStyle={styles.listContainer}
       bottomDivider
